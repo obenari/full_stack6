@@ -1,10 +1,5 @@
 var mysql = require("mysql2");
-const connectionInfo = {
-  host: "localhost",
-  user: "root",
-  password: "your_password", // change here
-  database: "FullStackProject6",
-};
+const connectionInfo = require("./connectionInfo").connectionInfo;
 
 var con = mysql.createConnection(connectionInfo);
 
