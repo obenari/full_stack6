@@ -1,6 +1,6 @@
 exports.connectionInfo = {
   host: "localhost",
   user: "root",
-  password: "your_password", // change here
+  password: "e315439554", // change here
   database: "FullStackProject6",
 };
