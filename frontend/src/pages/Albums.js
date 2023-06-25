@@ -6,10 +6,10 @@ function Albums({ user }) {
   const [albums, setAlbums] = useState([]);
 
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/albums")
+    fetch(`https://jsonplaceholder.typicode.com/users/${user.id}/albums`) //https://jsonplaceholder.typicode.com/users/1/albums
       .then((response) => response.json())
       .then((data) => {
-        data = data.filter((a) => a.userId === user.id);
+        //data = data.filter((a) => a.userId === user.id);
         setAlbums(data);
         localStorage.setItem("albums", JSON.stringify(data));
       })

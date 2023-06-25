@@ -9,7 +9,7 @@ function Photos() {
     const { albumId } = useParams();
 
     useEffect(() => {
-        fetch(`https://jsonplaceholder.typicode.com/albums/${albumId}/photos`)
+        fetch(`https://jsonplaceholder.typicode.com/albums/${albumId}/photos`)//https://jsonplaceholder.typicode.com/posts?_page=1&_limit=2%27
             .then((response) => response.json())
             .then((data) => {
                 setPhotos(data);

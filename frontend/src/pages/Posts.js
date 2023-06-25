@@ -11,10 +11,10 @@ function Posts({ user }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/posts")
+    fetch(`https://jsonplaceholder.typicode.com/users/${user.id}/posts`) //https://jsonplaceholder.typicode.com/users/1/posts
       .then((response) => response.json())
       .then((data) => {
-        data = data.filter((p) => p.userId === user.id);
+        //data = data.filter((p) => p.userId === user.id);
         setPosts(data);
       })
       .catch((error) => {
