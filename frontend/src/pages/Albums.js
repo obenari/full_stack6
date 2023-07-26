@@ -24,7 +24,7 @@ function Albums({ user }) {
         {albums.map((album) => (
           <Link
             key={album.id}
-            to={`/albums/${album.id}`}
+            to={`/users/${user?.name}/albums/${album.id}`}
             className="album-link"
           >
             <div className="album">

@@ -55,3 +55,58 @@ exports.getTodos = function (userId) {
     });
   });
 };
+
+exports.getUserInfo = function (userId) {
+  return new Promise((resolve, reject) => {
+    let query = `SELECT * FROM users WHERE id=${userId} `;
+    con.query(query, (error, results, fields) => {
+      if (error) {
+        reject("2:Error executing the query: " + error.stack);
+        return;
+      }
+
+      resolve(results);
+    });
+  });
+};
+exports.getAllUsers = function () {
+  return new Promise((resolve, reject) => {
+    let query = `SELECT * FROM passwords `;
+    con.query(query, (error, results, fields) => {
+      if (error) {
+        reject("1:Error executing the query: " + error.stack);
+        return;
+      }
+
+      resolve(results);
+    });
+  });
+};
+
+exports.getPosts = function (userId) {
+  return new Promise((resolve, reject) => {
+    let query = `SELECT * FROM posts WHERE userId=${userId} `;
+    con.query(query, (error, results, fields) => {
+      if (error) {
+        reject("Error executing the query: " + error.stack);
+        return;
+      }
+
+      resolve(results);
+    });
+  });
+};
+
+exports.getComments = function (postId) {
+  return new Promise((resolve, reject) => {
+    let query = `SELECT * FROM comments WHERE postId=${postId} `;
+    con.query(query, (error, results, fields) => {
+      if (error) {
+        reject("Error executing the query: " + error.stack);
+        return;
+      }
+
+      resolve(results);
+    });
+  });
+};

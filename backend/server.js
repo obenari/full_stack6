@@ -17,7 +17,38 @@ const PORT = process.env.port || 3001;
 app.get("/", (req, res) => {
   res.send("Hello World!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 });
-
+app.get("/users/:id", (req, res) => {
+  //https://jsonplaceholder.typicode.com/users/1/todos
+  db.getUserInfo(req.params.id)
+    .then((result) => {
+      //console.log("11" + result);
+      res.send(JSON.stringify(result[0]));
+      //res.send(result);
+    })
+    .catch((err) => console.log(err));
+});
+app.get("/validate_user", (req, res) => {
+  //https://jsonplaceholder.typicode.com/users/1/todos
+  db.getAllUsers()
+    .then((result) => {
+      let succes = result.find(
+        (user) =>
+          user.username === req.query.username &&
+          user.password === req.query.password
+      );
+      if (!succes) {
+        res.status(404);
+        res.send(JSON.stringify("wrong username or password"));
+      } else {
+        res.status(200);
+        res.send(JSON.stringify(succes.id));
+      }
+      //console.log("11" + result);
+      // res.send(JSON.stringify(result));
+      //res.send(result); f
+    })
+    .catch((err) => console.log(err));
+});
 app.get("/users/:id/todos", (req, res) => {
   //https://jsonplaceholder.typicode.com/users/1/todos
   db.getTodos(req.params.id)
@@ -28,6 +59,25 @@ app.get("/users/:id/todos", (req, res) => {
     })
     .catch((err) => console.log(err));
 });
+app.get("/users/:id/posts", (req, res) => {
+  db.getPosts(req.params.id)
+    .then((result) => {
+      //console.log("11" + result);
+      res.send(JSON.stringify(result));
+      //res.send(result);
+    })
+    .catch((err) => console.log(err));
+});
+app.get("/users/posts/:postId/comments", (req, res) => {
+  db.getComments(req.params.postId)
+    .then((result) => {
+      //console.log("11" + result);
+      res.send(JSON.stringify(result));
+      //res.send(result);
+    })
+    .catch((err) => console.log(err));
+});
+
 app.get("/", (req, res) => {
   res.send("Hello World!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 });

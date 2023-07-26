@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../css/Login.css";
-
 
 export const AuthContext = React.createContext(null);
 
@@ -13,26 +12,25 @@ function Login({ setUser }) {
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
-    let response = await fetch("https://jsonplaceholder.typicode.com/users")
-    let json = await response.json()
+    // let response = await fetch("https://jsonplaceholder.typicode.com/users")
+    let response = await fetch(
+      `http://localhost:3001/validate_user?username=${userName}&password=${password}`
+    ); //http://localhost:3001/users/${user.id}/todos
+    if (response.status === 200) {
+      let userId = await response.json();
+      response = await fetch(`http://localhost:3001/users/${userId}`);
+      let json = await response.json();
+      setUser(json);
+      //console.log(json[0].address.geo.lat.slice(-4));
 
-        const result = json.find(
-          (user) =>
-            user.username === userName &&
-            user.address.geo.lat.slice(-4) === password
-        );
-        setUser(result)
-        console.log(json[0].address.geo.lat.slice(-4));
-        if (result) {
-          window.localStorage.setItem("user", JSON.stringify(result));
-          navigate("/");
-        } else {
-          setError("Your Username or Password wrong!");
-        }
-      };
-  
-    // handle login logic here
- 
+      window.localStorage.setItem("user", JSON.stringify(json));
+      navigate("/");
+    } else {
+      setError("Your Username or Password wrong!");
+    }
+  };
+
+  // handle login logic here
 
   return (
     <div className="login-page">

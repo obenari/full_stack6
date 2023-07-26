@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, Navigate, useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "../css/Posts.css";
 
 function Posts({ user }) {
@@ -11,35 +11,40 @@ function Posts({ user }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`https://jsonplaceholder.typicode.com/users/${user.id}/posts`) //https://jsonplaceholder.typicode.com/users/1/posts
-      .then((response) => response.json())
-      .then((data) => {
-        //data = data.filter((p) => p.userId === user.id);
-        setPosts(data);
-      })
-      .catch((error) => {
+    if (!user) return;
+    async function fetchData() {
+      try {
+        //fetch(`https://jsonplaceholder.typicode.com/users/${user.id}/posts`) //https://jsonplaceholder.typicode.com/users/1/posts
+        let response = await fetch(
+          `http://localhost:3001/users/${user.id}/posts`
+        );
+        let json = await response.json();
+        setPosts(json);
+      } catch (error) {
         console.error("Error fetching posts:", error);
-      });
+      }
+    }
+    fetchData();
   }, [user]);
 
-  const handleCommentsClick = (postId) => {
-    setSelectedPostId(postId);
-
-    fetch(`https://jsonplaceholder.typicode.com/comments?postId=${postId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setComments(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching comments:", error);
-      });
+  const handleCommentsClick = async (postId) => {
+    try {
+      setSelectedPostId(postId);
+      let response = await fetch(
+        `http://localhost:3001/users/posts/${postId}/comments`
+      );
+      let json = await response.json();
+      setComments(json);
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
   };
   const handleCloseCommentsClick = (postId) => {
     setSelectedPostId(null);
   };
   const handlePostClick = (postId) => {
     //console.log("postId:", postId);
-    navigate(`/Posts/${postId}`);
+    navigate(`/users/${user?.name}/Posts/${postId}`);
   };
 
   return (

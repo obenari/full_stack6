@@ -21,23 +21,12 @@ function Info({ user }) {
         <p style={styles.field}>
           <strong>Email:</strong> {user.email}
         </p>
-        <p style={styles.field}>
-          <strong>Address:</strong> {user.address.street}, {user.address.suite},{" "}
-          {user.address.city}, {user.address.zipcode}
-        </p>
-        <p style={styles.field}>
-          <strong>Geo:</strong> Lat: {user.address.geo.lat}, Lng:{" "}
-          {user.address.geo.lng}
-        </p>
+
         <p style={styles.field}>
           <strong>Phone:</strong> {user.phone}
         </p>
         <p style={styles.field}>
           <strong>Website:</strong> {user.website}
-        </p>
-        <p style={styles.field}>
-          <strong>Company:</strong> {user.company.name},{" "}
-          {user.company.catchPhrase}, {user.company.bs}
         </p>
       </div>
     </div>
