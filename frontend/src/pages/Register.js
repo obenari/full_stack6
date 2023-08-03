@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/Login.css";
+import "../css/Register.css";
 
 export const AuthContext = React.createContext(null);
 
@@ -14,8 +14,8 @@ function Register({ setUser }) {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
-const handleSubmit = async (event) => {
-   /* event.preventDefault();
+  const handleSubmit = async (event) => {
+    /* event.preventDefault();
     // let response = await fetch("https://jsonplaceholder.typicode.com/users")
     let response = await fetch(
       `http://localhost:3001/validate_user?username=${userName}&password=${password}`
@@ -118,4 +118,3 @@ const handleSubmit = async (event) => {
 }
 
 export default Register;
-
