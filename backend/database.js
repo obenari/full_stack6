@@ -3,44 +3,6 @@ const connectionInfo = require("./connectionInfo").connectionInfo;
 
 var con = mysql.createConnection(connectionInfo);
 
-// exports.getTodos = function (userId) {
-//   var finalResult = 13;
-//   var t = con.connect(function (err) {
-//     if (err) throw err;
-//     var x;
-//     let y = con.query(
-//       `SELECT * FROM FullStackProject6.todos WHERE userId=${userId} `,
-//       function (err, result, fields) {
-//         if (err) throw err;
-//         //  console.log(result);
-//         //  x = result;
-//         x = JSON.stringify(result);
-//         // finalResult=12;
-//         // console.log(x);
-//         return x;
-//       }
-//     );
-//     finalResult = x;
-//     console.log(y);
-//     finalResult = y;
-//   });
-
-//   //finalResult=111111;
-//   return t;
-// };
-
-// exports.executeQuery = function (query) {
-//   return new Promise((resolve, reject) => {
-//     con.query(query, (error, results, fields) => {
-//       if (error) {
-//         reject("Error executing the query: " + error.stack);
-//         return;
-//       }
-
-//       resolve(results);
-//     });
-//   });
-// };
 
 //#region todos
 exports.getTodos = function (userId) {
@@ -57,7 +19,7 @@ exports.getTodos = function (userId) {
   });
 };
 
-exports.putTodo = function (todoId, newTitle, completed) {
+exports.updateTodo = function (todoId, newTitle, completed) {
   return new Promise((resolve, reject) => {
     let query = `UPDATE FullStackProject6.todos SET title='${newTitle}', completed='${completed}' WHERE id=${todoId}`;
     con.query(query, (error, results, fields) => {
@@ -71,7 +33,7 @@ exports.putTodo = function (todoId, newTitle, completed) {
   });
 };
 
-exports.postTodo = function (newTitle, completed) {
+exports.createTodo = function (newTitle, completed) {
   return new Promise((resolve, reject) => {
     let query = `INSERT INTO FullStackProject6.todos (title, completed) VALUES ('${newTitle}', '${completed}')`;
     con.query(query, (error, results, fields) => {
@@ -115,9 +77,12 @@ exports.getUserInfo = function (userId) {
   });
 };
 
-exports.deleteUserInfo = function (userId) {
+/*exports.deleteUserInfo = function (userId) {
   return new Promise((resolve, reject) => {
-    let query = `DELETE FROM users WHERE id=${userId}`;
+    let query = `DELETE FROM users WHERE id=${userId};
+                 DELETE FROM todos WHERE userId=${userId};
+                 DELETE FROM comments WHERE postId in 'SELECT postId FROM posts WHERE userId =${userId}'
+                 DELETE FROM posts WHERE userId = ${userId}`;
     con.query(query, (error, results, fields) => {
       if (error) {
         reject("Error executing the query: " + error.stack);
@@ -155,7 +120,7 @@ exports.updateUser = function (userId, name, username, email, phone, website, ra
       resolve(results);
     });
   });
-};
+};*/
 
 
 exports.getAllUsers = function () {
@@ -187,7 +152,7 @@ exports.getPosts = function (userId) {
   });
 };
 
-exports.postPost = function (userId, title, body) {
+exports.createPost = function (userId, title, body) {
   return new Promise((resolve, reject) => {
     let query = `INSERT INTO posts (userId, title, body) VALUES (${userId}, '${title}', '${body}')`;
     con.query(query, (error, results, fields) => {
@@ -201,7 +166,7 @@ exports.postPost = function (userId, title, body) {
   });
 };
 
-exports.putPost = function (postId, title, body) {
+exports.updatePost = function (postId, title, body) {
   return new Promise((resolve, reject) => {
     let query = `UPDATE posts SET title='${title}', body='${body}' WHERE id=${postId}`;
     con.query(query, (error, results, fields) => {
@@ -217,7 +182,8 @@ exports.putPost = function (postId, title, body) {
 
 exports.deletePost = function (postId) {
   return new Promise((resolve, reject) => {
-    let query = `DELETE FROM posts WHERE id=${postId}`;
+    let query = `DELETE FROM comments WHERE postId=${postId};
+                  DELETE FROM posts WHERE id=${postId}`;
     con.query(query, (error, results, fields) => {
       if (error) {
         reject("Error executing the query: " + error.stack);
@@ -245,7 +211,7 @@ exports.getComments = function (postId) {
   });
 };
 
-exports.postComment = function (postId, name, email, body) {
+exports.createComment = function (postId, name, email, body) {
   return new Promise((resolve, reject) => {
     let query = `INSERT INTO comments (postId, name, email, body) VALUES (${postId}, '${name}', '${email}', '${body}')`;
     con.query(query, (error, results, fields) => {
@@ -259,7 +225,7 @@ exports.postComment = function (postId, name, email, body) {
   });
 };
 
-exports.putComment = function (commentId, name, email, body) {
+exports.updateComment = function (commentId, name, email, body) {
   return new Promise((resolve, reject) => {
     let query = `UPDATE comments SET name='${name}', email='${email}', body='${body}' WHERE id=${commentId}`;
     con.query(query, (error, results, fields) => {
