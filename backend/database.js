@@ -3,7 +3,6 @@ const connectionInfo = require("./connectionInfo").connectionInfo;
 
 var con = mysql.createConnection(connectionInfo);
 
-
 //#region todos
 exports.getTodos = function (userId) {
   return new Promise((resolve, reject) => {
@@ -47,8 +46,7 @@ exports.createTodo = function (newTitle, completed) {
   });
 };
 
-
-exports.deleteTodo = function(todoId) {
+exports.deleteTodo = function (todoId) {
   return new Promise((resolve, reject) => {
     let query = `DELETE FROM FullStackProject6.todos WHERE id=${todoId}`;
     con.query(query, (error, results, fields) => {
@@ -122,7 +120,6 @@ exports.updateUser = function (userId, name, username, email, phone, website, ra
   });
 };*/
 
-
 exports.getAllUsers = function () {
   return new Promise((resolve, reject) => {
     let query = `SELECT * FROM passwords `;
@@ -160,8 +157,11 @@ exports.createPost = function (userId, title, body) {
         reject("Error executing the query: " + error.stack);
         return;
       }
+      console.log("Results:", results);
 
-      resolve(results);
+      const newId = results["insertId"];
+      resolve(newId);
+      //resolve(results);
     });
   });
 };
@@ -182,15 +182,24 @@ exports.updatePost = function (postId, title, body) {
 
 exports.deletePost = function (postId) {
   return new Promise((resolve, reject) => {
-    let query = `DELETE FROM comments WHERE postId=${postId};
-                  DELETE FROM posts WHERE id=${postId}`;
+    let query = `DELETE FROM comments WHERE postId=${postId};` 
+      let query1 =`DELETE FROM posts WHERE id=${postId};`;
     con.query(query, (error, results, fields) => {
       if (error) {
+        console.log("1", error);
         reject("Error executing the query: " + error.stack);
         return;
       }
-
-      resolve(results);
+      con.query(query1, (error, results, fields) => {
+        if (error) {
+          console.log("1", error);
+          reject("Error executing the query: " + error.stack);
+          return;
+        }
+  
+        resolve(results);
+      });
+      //resolve(results);
     });
   });
 };
@@ -252,7 +261,5 @@ exports.deleteComment = function (commentId) {
     });
   });
 };
-
-
 
 //#endregion

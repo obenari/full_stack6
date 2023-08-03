@@ -14,6 +14,208 @@
   border-radius: 8px;
   border: 2px solid #cf3a6c;
   box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
+    rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
+    rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+
+.post h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.post p {
+  margin-bottom: 10px;
+}
+
+.comment {
+  margin-top: 10px;
+  padding: 5px;
+  background-color: #eee;
+  border-radius: 5px;
+}
+
+.selected-post {
+  border: 5px solid #cf3a6c;
+  background-color: #e1a0b6;
+}
+
+.new-post {
+  width: 100%;
+  max-width: 500px; /* Limit the width of the new post form */
+  margin: 10px auto; /* Center the form on the page */
+  padding: 10px;
+  background-color: #f5f5f5; /* Change the background color to match the whole page */
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
+    rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
+    rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+
+.new-post form {
+  display: flex;
+  flex-direction: column;
+}
+
+.new-post label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.new-post input,
+.new-post textarea {
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  width: 95%;
+}
+
+.new-post textarea {
+  resize: vertical;
+}
+
+.new-post button {
+  padding: 8px 16px;
+  background-color: #e1a0b6;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.new-post button:hover {
+  background-color: #cf3a6c;
+}
+.cancel {
+  max-width: 5px;
+}
+.new-post-btn {
+  width: 100%;
+}
+.update {
+  display: block;
+  width: 95%;
+  size: 1rem;
+}
+input.update {
+  height: fit-content;
+}
+textArea {
+  height: 30px;
+}
+/* .posts-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.post {
+  width: 45%;
+  margin: 10px;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  border: 2px solid #cf3a6c;
+  box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
+    rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
+    rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+
+.post h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.post p {
+  margin-bottom: 10px;
+}
+
+.comment {
+  margin-top: 10px;
+  padding: 5px;
+  background-color: #eee;
+  border-radius: 5px;
+}
+
+.selected-post {
+  border: 5px solid #cf3a6c;
+  background-color: #e1a0b6;
+}
+
+.new-post {
+  width: 100%;
+  max-width: 500px; 
+  margin: 10px auto; 
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  border: 2px solid #4dabf5;
+  box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
+    rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
+    rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+
+.new-post form {
+  display: flex;
+  flex-direction: column;
+}
+
+.new-post label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.new-post input,
+.new-post textarea {
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  width: 95%;
+}
+
+.new-post textarea {
+  resize: vertical;
+}
+
+.new-post button {
+  padding: 8px 16px;
+  background-color: #4dabf5;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.new-post button:hover {
+  background-color: #1e7ac8;
+} */
+
+/* ************************** */
+/* .posts-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.post {
+  width: 45%;
+  margin: 10px;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  border: 2px solid #cf3a6c;
+  box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
   rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
   rgba(0, 0, 0, 0.09) 0px 32px 16px;
 }
@@ -38,4 +240,4 @@
   border: 5px solid #cf3a6c;
   background-color: #e1a0b6;
  
-}
+} */

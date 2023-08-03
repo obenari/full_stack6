@@ -15,8 +15,7 @@ function Register({ setUser }) {
 
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
-    /* event.preventDefault();
-    // let response = await fetch("https://jsonplaceholder.typicode.com/users")
+    event.preventDefault();
     let response = await fetch(
       `http://localhost:3001/validate_user?username=${userName}&password=${password}`
     ); //http://localhost:3001/users/${user.id}/todos
@@ -31,7 +30,7 @@ function Register({ setUser }) {
       navigate("/");
     } else {
       setError("Your Username or Password wrong!");
-    }*/
+    }
   };
 
   // handle register logic here
