@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
-import Register from "./pages/Register"
+import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Info from "./pages/Info";
 import Albums from "./pages/Albums";
@@ -30,10 +30,16 @@ function App() {
           <Route path="/users/:name/Info" element={<Info user={user} />} />
           <Route path="/users/:name/Todos" element={<Todos user={user} />} />
           <Route path="/users/:name/Posts" element={<Posts user={user} />} />
-          <Route path="/users/:name/Posts/:postId" element={<Posts user={user} />} />
+          <Route
+            path="/users/:name/Posts/:postId"
+            element={<Posts user={user} />}
+          />
           <Route path="/users/:name/Albums" element={<Albums user={user} />} />
-          <Route path="/users/:name/Albums/:albumId" element={<Photos user={user} />} />
-          <Route path="/users/:name/Logout" element={<Logout />} />
+          <Route
+            path="/users/:name/Albums/:albumId"
+            element={<Photos user={user} />}
+          />
+          <Route path="Logout" element={<Logout />} />
         </Route>
       </Routes>
     </BrowserRouter>

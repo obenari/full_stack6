@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import "../css/Login.css";
 
 export const AuthContext = React.createContext(null);
@@ -60,6 +60,9 @@ function Login({ setUser }) {
             />
           </div>
           {error && <p className="error-message">{error}</p>}
+          <NavLink to="/register" className="sign-in">
+            new user? sign in
+          </NavLink>
           <button type="submit" className="login-button">
             Login
           </button>
