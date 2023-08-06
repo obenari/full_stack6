@@ -110,6 +110,13 @@ app.put("/users/:userId/post/:postId}", (req, res) => {
     })
     .catch((err) => res.status(400).send("Failed to delete the post"));
 });
+app.delete('/users/comments/:commentId',(req, res) => {
+  db.deleteComment(req.params.commentId)
+    .then((result) => {
+      res.send(JSON.stringify(result));
+    })
+    .catch((err) => res.status(400).send("Failed to delete the comment"));
+})
 
 app.listen(PORT, () => {
   console.log(`app listening on port ${PORT}`);

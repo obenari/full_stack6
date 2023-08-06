@@ -23,19 +23,21 @@ export async function POST(path, body) {
 
 export async function PUT(path, body) {
   console.log("put", body);
+  const requestBody = JSON.stringify(body);
+
   const response = await fetch(hostname + path, {
     method: "PUT",
-    body: JSON.stringify(body),
+    body: requestBody,
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
   });
-  return await response;
+  return response;
 }
 
 export async function DELETE(path) {
   const response = await fetch(hostname + path, {
     method: "DELETE",
   });
-  return await response;
+  return response;
 }

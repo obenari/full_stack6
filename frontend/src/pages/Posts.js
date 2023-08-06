@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "../css/Posts.css";
 import { GET, PUT, POST, DELETE } from "../FetchRequest.js";
-
+import Comments from "./Comments";
 function Posts({ user }) {
   const [posts, setPosts] = useState([]);
   const [selectedPostId, setSelectedPostId] = useState(null);
@@ -35,10 +35,10 @@ function Posts({ user }) {
     try {
       setSelectedPostId(postId);
 
-      const response = await GET(`/users/posts/${postId}/comments`);
+      // const response = await GET(`/users/posts/${postId}/comments`);
 
-      let json = await response.json();
-      setComments(json);
+      // let json = await response.json();
+      // setComments(json);
     } catch (error) {
       console.error("Error fetching comments:", error);
     }
@@ -124,6 +124,7 @@ function Posts({ user }) {
     try {
       let response = await PUT(
         `/users/${user.id}/post/${editingPostId}`,
+        //`/users/${user.id}/post/${postId}`,
         updatedPost
       );
 
@@ -195,16 +196,7 @@ function Posts({ user }) {
               </div>
             )}
             {selectedPostId === post.id ? (
-              <div>
-                <h4>Comments:</h4>
-                {comments.map((comment) => (
-                  <div key={comment.id} className="comment">
-                    <p>"Name: " {comment.name}</p>
-                    <p>"Email: " {comment.email}</p>
-                    <p>{comment.body}</p>
-                  </div>
-                ))}
-              </div>
+              <Comments postId={selectedPostId} />
             ) : null}
             {selectedPostId === post.id ? (
               <button onClick={handleCloseCommentsClick}>Close Comments</button>
@@ -260,3 +252,14 @@ function Posts({ user }) {
 }
 
 export default Posts;
+
+/*<div>
+                <h4>Comments:</h4>
+                {comments.map((comment) => (
+                  <div key={comment.id} className="comment">
+                    <p>"Name: " {comment.name}</p>
+                    <p>"Email: " {comment.email}</p>
+                    <p>{comment.body}</p>
+                  </div>
+                ))}
+                </div>*/
