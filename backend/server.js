@@ -95,7 +95,8 @@ app.delete("/users/:userId/post/:postId", (req, res) => {
     .catch((err) => res.status(400).send("Failed to delete the post"));
 });
 
-app.put("/users/:userId/post/:postId}", (req, res) => {
+//app.put("/users/:userId/post/:postId}", (req, res) => {
+app.put("/users/:userId/post/:postId", (req, res) => {
   console.log("update post");
   console.log(req.body);
   const { error } = validateBody.check("post", req.body);
@@ -108,16 +109,64 @@ app.put("/users/:userId/post/:postId}", (req, res) => {
     .then((result) => {
       res.send(JSON.stringify(result));
     })
-    .catch((err) => res.status(400).send("Failed to delete the post"));
+    .catch((err) => res.status(400).send("Failed to update the post"));
 });
-app.delete('/users/comments/:commentId',(req, res) => {
+app.post("/users/new_user", (req, res) => {
+  console.log("post new user");
+  console.log(req.body);
+  const { error } = validateBody.check("user", req.body);
+  if (error) {
+    console.log("post error params");
+    res.status(400).send(error.details[0].message);
+    return;
+  }
+  const { name, username, password, email, phone, website, rank, api_key } =
+    req.body;
+  db.createUser(name, username, password, email, phone, website, rank, api_key)
+    .then((result) => {
+      res.send(JSON.stringify(result));
+    })
+    .catch((err) => console.log(err));
+});
+app.delete("/users/comments/:commentId", (req, res) => {
   db.deleteComment(req.params.commentId)
     .then((result) => {
       res.send(JSON.stringify(result));
     })
     .catch((err) => res.status(400).send("Failed to delete the comment"));
-})
+});
+app.post("/users/posts/:postId/comments", (req, res) => {
+  console.log("post new comment");
+  console.log(req.body);
+  const { error } = validateBody.check("comment", req.body);
+  if (error) {
+    console.log("comment error params");
+    res.status(400).send(error.details[0].message);
+    return;
+  }
+  const { postId, name, email, body } = req.body;
+  db.createComment(postId, name, email, body)
+    .then((result) => {
+      res.send(JSON.stringify(result));
+    })
+    .catch((err) => console.log(err));
+});
 
+app.put("/users/comments/:commentId", (req, res) => {
+  console.log("update comment");
+  console.log(req.body);
+  const { error } = validateBody.check("updateComment", req.body);
+  if (error) {
+    console.log("comment error params");
+    res.status(400).send(error.details[0].message);
+    return;
+  }
+  db.updateComment(req.body.id, req.body.name, req.body.email, req.body.body)
+    .then((result) => {
+      res.send(JSON.stringify(result));
+    })
+    .catch((err) => res.status(400).send("Failed to update the comment"));
+});
 app.listen(PORT, () => {
   console.log(`app listening on port ${PORT}`);
 });

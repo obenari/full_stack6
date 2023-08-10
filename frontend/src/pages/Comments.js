@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { GET, DELETE, POST } from "../FetchRequest.js";
+import { GET, DELETE, POST, PUT } from "../FetchRequest.js";
 import "../css/Comments.css";
 
 function Comments({ postId }) {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState({
+    postId: postId,
     name: "",
     email: "",
     body: "",
   });
   const [showForm, setShowForm] = useState(false);
-
+  const [editingComment, setEditingComment] = useState(null);
+  const [editForm, setEditForm] = useState({
+    id: "",
+    name: "",
+    email: "",
+    body: "",
+  });
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -76,19 +83,104 @@ function Comments({ postId }) {
   const toggleFormVisibility = () => {
     setShowForm(!showForm);
   };
+
+  const handleEdit = (comment) => {
+    setEditingComment(comment);
+    setEditForm({
+      id: comment.id,
+      name: comment.name,
+      email: comment.email,
+      body: comment.body,
+    });
+  };
+
+  const handleEditInputChange = (event) => {
+    const { name, value } = event.target;
+    setEditForm({
+      ...editForm,
+      [name]: value,
+    });
+  };
+
+  const handleSubmitCommentEdit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await PUT(
+        `/users/comments/${editingComment.id}`,
+        editForm
+      );
+      if (!response.ok) {
+        console.error("Failed to edit the comment.");
+        return;
+      }
+
+      const updatedComments = comments.map((comment) =>
+        comment.id === editingComment.id ? { ...comment, ...editForm } : comment
+      );
+
+      setComments(updatedComments);
+      setEditingComment(null);
+      setEditForm({ id: "", name: "", email: "", body: "" });
+    } catch (error) {
+      console.error("Error editing the comment:", error);
+    }
+  };
+  const cancelEdit = () => {
+    setEditingComment(null);
+    setEditForm({ id: "", name: "", email: "", body: "" });
+  };
+
   return (
     <div>
       <h4>Comments:</h4>
       {comments.map((comment) => (
         <div key={comment.id} className="comment">
-          <p>"Name: " {comment.name}</p>
-          <p>"Email: " {comment.email}</p>
-          <p>{comment.body}</p>
-          <button onClick={() => handleDelete(comment.id)}>Delete</button>
+          {editingComment !== comment ? (
+            <div>
+              <p>"Name: " {comment.name}</p>
+              <p>"Email: " {comment.email}</p>
+              <p>{comment.body}</p>
+              <button onClick={() => handleDelete(comment.id)}>Delete</button>
+              <button onClick={() => handleEdit(comment)}>Edit</button>
+            </div>
+          ) : (
+            <div className="comment-form">
+              <form onSubmit={handleSubmitCommentEdit}>
+                <div>
+                  <label>Name:</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={editForm.name}
+                    onChange={handleEditInputChange}
+                  />
+                </div>
+                <div>
+                  <label>Email:</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={editForm.email}
+                    onChange={handleEditInputChange}
+                  />
+                </div>
+                <div>
+                  <label>Comment:</label>
+                  <textarea
+                    name="body"
+                    value={editForm.body}
+                    onChange={handleEditInputChange}
+                  />
+                </div>
+
+                <button onClick={handleSubmitCommentEdit}>Save Changes</button>
+                <button onClick={cancelEdit}>Cancel</button>
+              </form>
+            </div>
+          )}
         </div>
       ))}
       <div>
-      
         <button onClick={toggleFormVisibility}>
           {showForm ? "Hide Form" : "Add Comment"}
         </button>

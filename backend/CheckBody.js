@@ -4,9 +4,9 @@ const user = Joi.object().keys({
   username: Joi.string().required(),
   password: Joi.string().required(),
   name: Joi.string().required(),
-  id_number: Joi.number().required(),
-  phone: Joi.number().required(), 
+  phone: Joi.number().required(),
   email: Joi.string().required(),
+  website: Joi.string().required(),
 });
 
 const post = Joi.object().keys({
@@ -18,6 +18,14 @@ const post = Joi.object().keys({
 
 const comment = Joi.object().keys({
   postId: Joi.number().required(),
+  //id: Joi.number().required(),
+  name: Joi.string().required(),
+  email: Joi.string().required(),
+  body: Joi.string().required(),
+});
+
+const updateComment = Joi.object().keys({
+  id: Joi.number().required(),
   //id: Joi.number().required(),
   name: Joi.string().required(),
   email: Joi.string().required(),
@@ -40,6 +48,7 @@ const ObjectCheck = {
   user: user,
   todos: todos,
   comment: comment,
+  updateComment:updateComment,
   passwords: passwords,
 };
 

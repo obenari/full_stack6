@@ -118,6 +118,7 @@ function Posts({ user }) {
   const handleUpdatePostSubmit = async (event) => {
     event.preventDefault();
     const updatedPost = {
+      userId: user.id,
       title: updatedPostTitle,
       body: updatedPostBody,
     };

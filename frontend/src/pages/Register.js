@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/Register.css";
+import { GET, DELETE, POST } from "../FetchRequest.js";
 
 export const AuthContext = React.createContext(null);
 
@@ -16,20 +17,27 @@ function Register({ setUser }) {
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
-    let response = await fetch(
-      `http://localhost:3001/validate_user?username=${userName}&password=${password}`
-    ); //http://localhost:3001/users/${user.id}/todos
-    if (response.status === 200) {
-      let userId = await response.json();
-      response = await fetch(`http://localhost:3001/users/${userId}`);
-      let json = await response.json();
-      setUser(json);
-      //console.log(json[0].address.geo.lat.slice(-4));
+    try {
+      const response = await POST("/users/new_user", {
+        username: userName,
+        password: password,
+        name: name,
+        email: email,
+        phone: phone,
+        website: website,
+      });
 
-      window.localStorage.setItem("user", JSON.stringify(json));
-      navigate("/");
-    } else {
-      setError("Your Username or Password wrong!");
+      if (response.status === 200) {
+        const newUser = await response.json();
+        setUser(newUser);
+        window.localStorage.setItem("user", JSON.stringify(newUser));
+        navigate("/");
+      } else {
+        setError("Registration failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error registering user:", error);
+      setError("Registration failed. Please try again.");
     }
   };
 

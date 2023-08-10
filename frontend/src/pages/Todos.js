@@ -1,25 +1,44 @@
 import React, { useState, useEffect } from "react";
 import "../css/Todos.css";
+import { GET, PUT, POST, DELETE } from "../FetchRequest.js";
 
 const Todos = ({ user }) => {
   const [todos, setTodos] = useState([]);
-  const [sorting, setSorting] = useState("sequential");
+  // const [sorting, setSorting] = useState("sequential");
 
   useEffect(() => {
-    if(!user) return;
+    if (!user) return;
     async function fetchData() {
-      let response = await fetch(`http://localhost:3001/users/${user.id}/todos`); //https://jsonplaceholder.typicode.com/users/1/todos
+      let response = await fetch(
+        `http://localhost:3001/users/${user.id}/todos`
+      ); //https://jsonplaceholder.typicode.com/users/1/todos
       let res = await response.json();
 
       setTodos(res);
     }
     fetchData();
   }, [user]);
+  const handleDeleteTodo = async (todo_id) => {
+    try {
+      let response=await DELETE(`/todos/${todo_id}`, {
+      });
+      if(response.status!==200){
+        console.log('failed to delet the todo');
+        alert('failed to delet the todo')
 
-  const handleSortingChange = (e) => {
-    setSorting(e.target.value);
+      }
+      else{
+      const updatedTodos = todos.filter((todo) => todo.id !== todo_id);
+      setTodos(updatedTodos);
+      }
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+    }
   };
 
+  // const handleSortingChange = (e) => {
+  //   setSorting(e.target.value);
+  // };
 
   function handleCheckBoxChange(todo_id) {
     let copy_list = [];
@@ -28,20 +47,12 @@ const Todos = ({ user }) => {
     }
     const index = copy_list.findIndex((t) => t.id === todo_id);
     copy_list[index].completed = !copy_list[index].completed;
-    localStorage.setItem("todos", JSON.stringify(copy_list));
+    //localStorage.setItem("todos", JSON.stringify(copy_list));
     setTodos(copy_list);
   }
   return (
     <div className="todos-container">
-      <div className="sorting-container">
-        <label htmlFor="sorting">Sort by:</label>
-        <select id="sorting" value={sorting} onChange={handleSortingChange}>
-          <option value="sequential">Sequential</option>
-          <option value="completed">Completed</option>
-          <option value="alphabetical">Alphabetical</option>
-          <option value="random">Random</option>
-        </select>
-      </div>
+      <div className="sorting-container"></div>
       <hr></hr>
       <div className="todos-list">
         {todos.map((todo) => (
@@ -59,6 +70,7 @@ const Todos = ({ user }) => {
             ) : (
               <span>{todo.title}</span>
             )}
+            <button onClick={(e) => handleDeleteTodo(todo.id)}>delete</button>
           </div>
         ))}
       </div>
@@ -67,4 +79,3 @@ const Todos = ({ user }) => {
 };
 
 export default Todos;
-

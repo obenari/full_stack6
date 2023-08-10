@@ -75,6 +75,48 @@ exports.getUserInfo = function (userId) {
   });
 };
 
+exports.createUser = function (
+  name,
+  username,
+  password,
+  email,
+  phone,
+  website,
+  rank,
+  api_key
+) {
+  return new Promise((resolve, reject) => {
+    let query = `INSERT INTO users ( name, username, email, phone, website, \`rank\`, api_key) VALUES ('${name}', '${username}', '${email}', '${phone}', '${website}', '${rank}', '${website}')`;
+
+    con.query(query, (error, results, fields) => {
+      if (error) {
+        reject("Error executing the query: " + error.stack);
+        return;
+      }
+
+      const newId = results["insertId"];
+      //let query1 = `INSERT INTO users (id, name, username, email, phone, website) VALUES ('${newId}','${name}', '${username}', '${email}', '${phone}', '${website}')`;
+      let query1 = `INSERT INTO passwords ( username,password) VALUES ( '${username}', '${password}')`;
+
+      con.query(query1, (error, results, fields) => {
+        if (error) {
+          reject("Error executing the query: " + error.stack);
+          return;
+        }
+        resolve({
+          id: newId,
+          name: name,
+          username: username,
+          email: email,
+          phone: phone,
+          website: website,
+          rank: rank,
+          api_key: api_key,
+        });
+      });
+    });
+  });
+};
 /*exports.deleteUserInfo = function (userId) {
   return new Promise((resolve, reject) => {
     let query = `DELETE FROM users WHERE id=${userId};
@@ -92,19 +134,6 @@ exports.getUserInfo = function (userId) {
   });
 };
 
-exports.postUser = function (name, username, email, phone, website, rank, api_key) {
-  return new Promise((resolve, reject) => {
-    let query = `INSERT INTO users (name, username, email, phone, website, rank, api_key) VALUES ('${name}', '${username}', '${email}', '${phone}', '${website}', '${rank}', '${api_key}')`;
-    con.query(query, (error, results, fields) => {
-      if (error) {
-        reject("Error executing the query: " + error.stack);
-        return;
-      }
-
-      resolve(results);
-    });
-  });
-};
 
 exports.updateUser = function (userId, name, username, email, phone, website, rank, api_key) {
   return new Promise((resolve, reject) => {
@@ -182,8 +211,8 @@ exports.updatePost = function (postId, title, body) {
 
 exports.deletePost = function (postId) {
   return new Promise((resolve, reject) => {
-    let query = `DELETE FROM comments WHERE postId=${postId};` 
-      let query1 =`DELETE FROM posts WHERE id=${postId};`;
+    let query = `DELETE FROM comments WHERE postId=${postId};`;
+    let query1 = `DELETE FROM posts WHERE id=${postId};`;
     con.query(query, (error, results, fields) => {
       if (error) {
         console.log("1", error);
@@ -196,7 +225,7 @@ exports.deletePost = function (postId) {
           reject("Error executing the query: " + error.stack);
           return;
         }
-  
+
         resolve(results);
       });
       //resolve(results);
@@ -228,8 +257,9 @@ exports.createComment = function (postId, name, email, body) {
         reject("Error executing the query: " + error.stack);
         return;
       }
+      const newId = results["insertId"];
 
-      resolve(results);
+      resolve(newId);
     });
   });
 };
