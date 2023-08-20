@@ -32,17 +32,18 @@ exports.updateTodo = function (todoId, newTitle, completed) {
   });
 };
 
-exports.createTodo = function (newTitle, completed) {
-  alert(title+""+completed);
+exports.createTodo = function (userId, newTitle, completed) {
+  //alert(title+""+completed);
   return new Promise((resolve, reject) => {
-    let query = `INSERT INTO FullStackProject6.todos (title, completed) VALUES ('${newTitle}', '${completed}')`;
+    let query = `INSERT INTO FullStackProject6.todos (userId,title, completed) VALUES ('${userId}', '${newTitle}', '${completed}')`;
     con.query(query, (error, results, fields) => {
       if (error) {
         reject("Error executing the query: " + error.stack);
         return;
       }
+      const newId = results["insertId"];
 
-      resolve(results);
+      resolve(newId);
     });
   });
 };

@@ -9,7 +9,6 @@ app.use(cors());
 const db = require("./database");
 const PORT = process.env.port || 3001;
 
-
 app.get("/users/:id", (req, res) => {
   db.getUserInfo(req.params.id)
     .then((result) => {
@@ -56,7 +55,6 @@ app.get("/users/posts/:postId/comments", (req, res) => {
     })
     .catch((err) => console.log(err));
 });
-
 
 app.get("/*", (req, res) => {
   res.status(404);
@@ -124,7 +122,6 @@ app.post("/users/new_user", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-
 //comments
 app.delete("/users/comments/:commentId", (req, res) => {
   db.deleteComment(req.params.commentId)
@@ -182,16 +179,16 @@ app.delete("/users/todos/:todoId", (req, res) => {
 app.post("/users/todos/todo", (req, res) => {
   console.log("post todo");
   console.log(req.body);
-  const { error } = validateBody.check("todo", req.body);
+  const { error } = validateBody.check("todos", req.body);
   if (error) {
     console.log("todo error params");
     res.status(400).send(error.details[0].message);
     return;
   }
-  const {title} = req.body;
-  const {completed}=false;
-  alert(title+" "+completed);
-  db.createTodo(title, completed)
+  const { userId, title } = req.body;
+  const completed = 0;
+  // alert(title + " " + completed);
+  db.createTodo(userId, title, completed)
     .then((result) => {
       res.send(JSON.stringify(result));
     })
