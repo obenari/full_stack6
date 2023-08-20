@@ -33,6 +33,7 @@ exports.updateTodo = function (todoId, newTitle, completed) {
 };
 
 exports.createTodo = function (newTitle, completed) {
+  alert(title+""+completed);
   return new Promise((resolve, reject) => {
     let query = `INSERT INTO FullStackProject6.todos (title, completed) VALUES ('${newTitle}', '${completed}')`;
     con.query(query, (error, results, fields) => {

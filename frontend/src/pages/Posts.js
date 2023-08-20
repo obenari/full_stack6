@@ -254,13 +254,4 @@ function Posts({ user }) {
 
 export default Posts;
 
-/*<div>
-                <h4>Comments:</h4>
-                {comments.map((comment) => (
-                  <div key={comment.id} className="comment">
-                    <p>"Name: " {comment.name}</p>
-                    <p>"Email: " {comment.email}</p>
-                    <p>{comment.body}</p>
-                  </div>
-                ))}
-                </div>*/
+

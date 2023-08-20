@@ -9,9 +9,7 @@ app.use(cors());
 const db = require("./database");
 const PORT = process.env.port || 3001;
 
-app.get("/", (req, res) => {
-  res.send("Hello World!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-});
+
 app.get("/users/:id", (req, res) => {
   db.getUserInfo(req.params.id)
     .then((result) => {
@@ -59,17 +57,12 @@ app.get("/users/posts/:postId/comments", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-app.get("/", (req, res) => {
-  res.send("Hello World!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-});
-
-app.get("/", (req, res) => {
-  res.send("Hello World!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-});
 
 app.get("/*", (req, res) => {
   res.status(404);
 });
+
+//posts
 
 app.post("/users/:userID/post", (req, res) => {
   console.log("post post");
@@ -87,6 +80,7 @@ app.post("/users/:userID/post", (req, res) => {
     })
     .catch((err) => console.log(err));
 });
+
 app.delete("/users/:userId/post/:postId", (req, res) => {
   db.deletePost(req.params.postId)
     .then((result) => {
@@ -95,7 +89,6 @@ app.delete("/users/:userId/post/:postId", (req, res) => {
     .catch((err) => res.status(400).send("Failed to delete the post"));
 });
 
-//app.put("/users/:userId/post/:postId}", (req, res) => {
 app.put("/users/:userId/post/:postId", (req, res) => {
   console.log("update post");
   console.log(req.body);
@@ -111,6 +104,8 @@ app.put("/users/:userId/post/:postId", (req, res) => {
     })
     .catch((err) => res.status(400).send("Failed to update the post"));
 });
+
+//users
 app.post("/users/new_user", (req, res) => {
   console.log("post new user");
   console.log(req.body);
@@ -128,6 +123,9 @@ app.post("/users/new_user", (req, res) => {
     })
     .catch((err) => console.log(err));
 });
+
+
+//comments
 app.delete("/users/comments/:commentId", (req, res) => {
   db.deleteComment(req.params.commentId)
     .then((result) => {
@@ -135,6 +133,7 @@ app.delete("/users/comments/:commentId", (req, res) => {
     })
     .catch((err) => res.status(400).send("Failed to delete the comment"));
 });
+
 app.post("/users/posts/:postId/comments", (req, res) => {
   console.log("post new comment");
   console.log(req.body);
@@ -169,4 +168,32 @@ app.put("/users/comments/:commentId", (req, res) => {
 });
 app.listen(PORT, () => {
   console.log(`app listening on port ${PORT}`);
+});
+
+//todos
+app.delete("/users/todos/:todoId", (req, res) => {
+  db.deleteTodo(req.params.todoId)
+    .then((result) => {
+      res.send(JSON.stringify(result));
+    })
+    .catch((err) => res.status(400).send("Failed to delete the post"));
+});
+
+app.post("/users/todos/todo", (req, res) => {
+  console.log("post todo");
+  console.log(req.body);
+  const { error } = validateBody.check("todo", req.body);
+  if (error) {
+    console.log("todo error params");
+    res.status(400).send(error.details[0].message);
+    return;
+  }
+  const {title} = req.body;
+  const {completed}=false;
+  alert(title+" "+completed);
+  db.createTodo(title, completed)
+    .then((result) => {
+      res.send(JSON.stringify(result));
+    })
+    .catch((err) => console.log(err));
 });

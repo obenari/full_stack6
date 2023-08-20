@@ -4,7 +4,13 @@ import { GET, PUT, POST, DELETE } from "../FetchRequest.js";
 
 const Todos = ({ user }) => {
   const [todos, setTodos] = useState([]);
-  // const [sorting, setSorting] = useState("sequential");
+  const [newTodoTitle, setNewTodoTitle] = useState("");
+  //const [newTodoDescription, setNewTodoDescription] = useState("");
+  const [showNewTodoForm, setShowNewTodoForm] = useState(false);
+  //const [editingTodoId, setEditingTodoId] = useState(null);
+  //const [updatedTodoTitle, setUpdatedTodoTitle] = useState("");
+  //const [updatedTodoDescription, setUpdatedTodoDescription] = useState("");
+
 
   useEffect(() => {
     if (!user) return;
@@ -18,17 +24,53 @@ const Todos = ({ user }) => {
     }
     fetchData();
   }, [user]);
-  const handleDeleteTodo = async (todo_id) => {
+
+  const handleNewTodoClick = () => {
+    setShowNewTodoForm(true);
+  };
+
+  const handleCloseNewTodoForm = () => {
+    setShowNewTodoForm(false);
+  };
+
+  const handleNewTodoSubmit = async (event) => {
+    event.preventDefault();
+    // Create a new todo object
+    const newTodo = {
+      userId: user.id,
+      title: newTodoTitle,
+    };
+
     try {
-      let response=await DELETE(`/todos/${todo_id}`, {
+      let response = await POST(`/users/todos/todo`, newTodo);
+      if (!response.ok) {
+        console.error("Failed to create new todoooo.");
+        return;
+      }
+      // Fetch the updated list of posts
+      let json = await response.json();
+      const newTodo1 = { ...newTodo, id: json };
+      setTodos([...todos, newTodo1]); // Add the new todo to the existing list of todos
+
+      setNewTodoTitle("");
+      setShowNewTodoForm(false); // Hide the form after successful submission
+    } catch (error) {
+      console.error("Error creating new todo:", error);
+    }
+  };
+
+
+  const handleDeleteTodo = async (todoId) => {
+    try {
+      let response=await DELETE(`/users/${user.id}/todos/${todoId}`, {
       });
       if(response.status!==200){
-        console.log('failed to delet the todo');
-        alert('failed to delet the todo')
+        console.log('failed to delete the todo');
+        alert('failed to delete the todo')
 
       }
       else{
-      const updatedTodos = todos.filter((todo) => todo.id !== todo_id);
+      const updatedTodos = todos.filter((todo) => todo.id !== todoId);
       setTodos(updatedTodos);
       }
     } catch (error) {
@@ -51,6 +93,35 @@ const Todos = ({ user }) => {
     setTodos(copy_list);
   }
   return (
+
+  <div>
+    <div className="new-todo todo">
+      {showNewTodoForm && (
+        <button type="button cancel" onClick={handleCloseNewTodoForm}>
+          X
+        </button>
+      )}
+      {showNewTodoForm ? (
+        <form onSubmit={handleNewTodoSubmit}>
+          <label>
+            New Todo Title:
+            <input
+              required
+              type="text"
+              value={newTodoTitle}
+              onChange={(e) => setNewTodoTitle(e.target.value)}
+            />
+          </label>
+
+          <button type="submit">Create New Todo</button>
+        </form>
+      ) : (
+        <button className="new-todo-btn" onClick={handleNewTodoClick}>
+          Create New Todo
+        </button>
+      )}
+    </div>
+    
     <div className="todos-container">
       <div className="sorting-container"></div>
       <hr></hr>
@@ -75,6 +146,7 @@ const Todos = ({ user }) => {
         ))}
       </div>
     </div>
+  </div>
   );
 };
 
