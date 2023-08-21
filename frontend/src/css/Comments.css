@@ -24,7 +24,7 @@
   resize: vertical;
 }
 
-.comment-form button {
+/*.comment-form button {
   background-color: #007bff;
   color: #fff;
   padding: 5px 10px;
@@ -35,6 +35,17 @@
 
 .comment-form button:hover {
   background-color: #0056b3;
+}*/
+
+button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #cf3a6c;
+  transition: color 0.3s;
 }
 
-/* Additional styling can be added as per your requirement */
+button:hover {
+  color: #ad274f;
+}

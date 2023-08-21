@@ -192,6 +192,23 @@ app.post("/users/todos/todo", (req, res) => {
     .catch((err) => console.log(err));
 });
 
+app.put("/users/todos/:todoId", (req, res) => {
+  console.log("update todo");
+  console.log(req.body);
+  const { error } = validateBody.check("updateTodo", req.body);
+  if (error) {
+    console.log("todo error params");
+    console.log(error.details[0].message);
+    res.status(400).send(error.details[0].message);
+    return;
+  }
+  db.updateTodo(req.body.id, req.body.title, req.body.completed)
+    .then((result) => {
+      res.send(JSON.stringify(result));
+    })
+    .catch((err) => res.status(400).send("Failed to update the todo"));
+});
+
 app.listen(PORT, () => {
   console.log(`app listening on port ${PORT}`);
 });

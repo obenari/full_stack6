@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "../css/Posts.css";
 import { GET, PUT, POST, DELETE } from "../FetchRequest.js";
+import { FaTrash, FaEdit} from 'react-icons/fa';
 import Comments from "./Comments";
 function Posts({ user }) {
   const [posts, setPosts] = useState([]);
@@ -238,10 +239,10 @@ function Posts({ user }) {
                     handleEditPostClick(post.id, post.title, post.body)
                   }
                 >
-                  Edit Post
+                  <FaEdit/>
                 </button>
                 <button onClick={() => handleDeletePost(post.id)}>
-                  Delete Post
+                  <FaTrash/>
                 </button>
               </div>
             )}

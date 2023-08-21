@@ -142,3 +142,16 @@ input.update {
 textarea {
   height: 30px;
 }
+
+.todo-item button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #cf3a6c;
+  transition: color 0.3s;
+}
+
+.todo-item button:hover {
+  color: #ad274f;
+}

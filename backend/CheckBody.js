@@ -41,12 +41,20 @@ const todos = Joi.object().keys({
   // id: Joi.number().required(),
   userId: Joi.number().required(),
   title: Joi.string().required(),
-  completed: Joi.boolean,
+  completed: Joi.number().required(),
 });
+
+const updateTodo = Joi.object().keys({
+  id: Joi.number().required(),
+  title: Joi.string().required(),
+  completed: Joi.alternatives().try(Joi.boolean(), Joi.number()).required(),
+});
+
 const ObjectCheck = {
   post: post,
   user: user,
   todos: todos,
+  updateTodo:updateTodo,
   comment: comment,
   updateComment:updateComment,
   passwords: passwords,
