@@ -163,9 +163,7 @@ app.put("/users/comments/:commentId", (req, res) => {
     })
     .catch((err) => res.status(400).send("Failed to update the comment"));
 });
-app.listen(PORT, () => {
-  console.log(`app listening on port ${PORT}`);
-});
+
 
 //todos
 app.delete("/users/todos/:todoId", (req, res) => {
@@ -173,7 +171,7 @@ app.delete("/users/todos/:todoId", (req, res) => {
     .then((result) => {
       res.send(JSON.stringify(result));
     })
-    .catch((err) => res.status(400).send("Failed to delete the post"));
+    .catch((err) => res.status(400).send("Failed to delete the todo"));
 });
 
 app.post("/users/todos/todo", (req, res) => {
@@ -187,10 +185,13 @@ app.post("/users/todos/todo", (req, res) => {
   }
   const { userId, title } = req.body;
   const completed = 0;
-  // alert(title + " " + completed);
   db.createTodo(userId, title, completed)
     .then((result) => {
       res.send(JSON.stringify(result));
     })
     .catch((err) => console.log(err));
+});
+
+app.listen(PORT, () => {
+  console.log(`app listening on port ${PORT}`);
 });

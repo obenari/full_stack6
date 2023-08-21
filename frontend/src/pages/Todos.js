@@ -30,6 +30,7 @@ const Todos = ({ user }) => {
   };
 
   const handleCloseNewTodoForm = () => {
+    setNewTodoTitle("");
     setShowNewTodoForm(false);
   };
 
@@ -62,12 +63,11 @@ const Todos = ({ user }) => {
 
   const handleDeleteTodo = async (todoId) => {
     try {
-      let response=await DELETE(`/users/${user.id}/todos/${todoId}`, {
+      let response=await DELETE(`/users/todos/${todoId}`, {
       });
       if(response.status!==200){
         console.log('failed to delete the todo');
         alert('failed to delete the todo')
-
       }
       else{
       const updatedTodos = todos.filter((todo) => todo.id !== todoId);
