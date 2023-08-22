@@ -119,7 +119,10 @@ app.post("/users/new_user", (req, res) => {
     .then((result) => {
       res.send(JSON.stringify(result));
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      res.status(409).send(JSON.stringify(err));
+    });
 });
 
 //comments
@@ -163,7 +166,6 @@ app.put("/users/comments/:commentId", (req, res) => {
     })
     .catch((err) => res.status(400).send("Failed to update the comment"));
 });
-
 
 //todos
 app.delete("/users/todos/:todoId", (req, res) => {

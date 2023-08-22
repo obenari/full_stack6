@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { GET, DELETE, POST, PUT } from "../FetchRequest.js";
 import "../css/Comments.css";
-import { FaTrash, FaEdit} from 'react-icons/fa';
-
+import { FaTrash, FaEdit } from "react-icons/fa";
 
 function Comments({ postId }) {
   const [comments, setComments] = useState([]);
@@ -142,8 +141,12 @@ function Comments({ postId }) {
               <p>"Name: " {comment.name}</p>
               <p>"Email: " {comment.email}</p>
               <p>{comment.body}</p>
-              <button onClick={() => handleDelete(comment.id)}><FaTrash /></button>
-              <button onClick={() => handleEdit(comment)}><FaEdit /></button>
+              <button onClick={() => handleDelete(comment.id)}>
+                <FaTrash />
+              </button>
+              <button onClick={() => handleEdit(comment)}>
+                <FaEdit />
+              </button>
             </div>
           ) : (
             <div className="comment-form">

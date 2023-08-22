@@ -116,7 +116,7 @@ function Register({ setUser }) {
           </div>
           {error && <p className="error-message">{error}</p>}
           <button type="submit" className="login-button">
-            Login
+            Sign in
           </button>
         </form>
       </div>
